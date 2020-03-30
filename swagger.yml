@@ -1,0 +1,38 @@
+openapi: "3.0.0"
+
+info:
+  title: Portico
+  description: Authentication validation service
+  version: 0.0.1
+
+
+servers:
+  - url: https://api.dev.youclap.tech/auth
+
+paths:
+  /auth:
+    get:
+      tags:
+        - Auth
+      summary: Validates if the provided token is valid and authorized.
+      parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+            format: JWT
+          required: true
+      responses:
+        202:
+          description: "Access token valid and accepted."
+          headers:
+            X-Auth-User:
+              description: "The UID of the user."
+              schema:
+                type: string
+            X-Auth-Token:
+              description: "The token sent in the request."
+              schema:
+                type: string
+        401:
+          description: "Access token missing or invalid"
